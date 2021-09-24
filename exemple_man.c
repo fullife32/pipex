@@ -33,7 +33,7 @@ main(int argc, char *argv[], char *env[])
             write(STDOUT_FILENO, &buf, 1);
 
         write(STDOUT_FILENO, "\n", 1);
-        close(pipefd[0]);
+        close(pipefd[0]); 
 		
 		int fd, fd2;
 		fd = open("testfork.c", O_RDONLY);
