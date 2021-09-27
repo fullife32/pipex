@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/27 12:17:08 by eassouli          #+#    #+#             */
-/*   Updated: 2021/09/27 16:31:14 by eassouli         ###   ########.fr       */
+/*   Created: 2019/10/07 11:15:56 by eassouli          #+#    #+#             */
+/*   Updated: 2021/09/27 16:30:43 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	PIPEX_H
-#define	PIPEX_H
+#include "pipex.h"
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
 
-#define IN 0
-#define OUT 1
-
-char	**ft_split(char const *s, char c);
-char	*ft_strjoin(char const *s1, char const *s2);
-size_t	ft_strlen(const char *s);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-
-#endif
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
