@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 17:00:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/09/27 18:01:18 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/09/28 12:43:22 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,26 +38,79 @@ void	file_check(char *path1, char *path2, int file_fd[2])
 	}
 }
 
-char	*access_path(char **env)
+char	*access_path(int ac, char **av, char **env, t_list **lst)
 {
-	while (env || ft_strncmp(*env, "PATH=", 5) != 0)
+	char	**split_path;
+	char	**split_args;
+	int		arg;
+	int		i;
+
+	split_path = NULL;
+	while (*env && ft_strncmp(*env, "PATH=", 5) != 0)
 		env++;
-	if (env == NULL)
+	if (*env == NULL)
 	{
 		write(1, "pipex : No path for command found\n", 34); // A changer
 		return (NULL);
 	}
+	split_path = ft_split(*env, ':');
+	if (split_path == NULL)
+		return (NULL); // exit
+	*split_path += 5;
+	arg = 2;
+	while (arg < ac - 1)
+	{
+		*lst = ft_lstnew(NULL);
+		if (*lst == NULL)
+			return (NULL); //clear lst
+		(*lst)->split_args = ft_split(av[arg], ' '); //dup dans liste chainee
+		if ((*lst)->split_args == NULL)
+			return (NULL); //exit
+		if (**(*lst)->split_args == '/')
+		{
+			if (access(*split_args, X_OK) == 0)
+			{
+				(*lst)->path = *(*lst)->split_args; //strdup, check quand meme access quand exec commande au cas ou ne marche pas
+				printf("Le bon chemin est : %s\n", (*lst)->path);
+			}
+		}
+		else
+		{
+			*(*lst)->split_args = ft_strjoin("/", *(*lst)->split_args);
+			if (*(*lst)->split_args == NULL)
+				return (NULL);
+			i = 0;
+			while (split_path[i] && i != -1)
+			{
+				(*lst)->path = ft_strjoin(split_path[i], *(*lst)->split_args);
+				if ((*lst)->path == NULL)
+					return (NULL);
+				if (access((*lst)->path, X_OK) == 0)
+					i = -2;
+				else
+				{
+					free((*lst)->path);
+					(*lst)->path = NULL;
+				}
+				i++;
+			}
+		}
+		arg++;
+		(*lst)->next = ft_lstnew(NULL);
+		*lst = (*lst)->next;
+	}
+	return (NULL);
 }
 
 int	main(int ac, char **av, char **env)
 {
-	char	*cmd_path;
 	int		pipe_fd[2];
 	int		file_fd[2];
 	char	**argv_tab;
 	char	**argv_tab2;
 	int		pid;
 	int		nb;
+	t_list	**lst;
 
 	if (ac < 5)
 	{
@@ -71,9 +124,11 @@ int	main(int ac, char **av, char **env)
 	nb = 3;
 	argv_tab = NULL;
 	argv_tab2 = NULL;
+	*lst = NULL;
 	create_pipe(pipe_fd);
 	file_check(av[1], av[ac - 1], file_fd);
-	// cmd_path = access_path(env);
+	access_path(ac, av, env, lst);
+	// printf("Le bon chemin est : %s\n", (*lst)->path);
 	pid = fork();
 	if (pid == -1)
 		perror("fork");
@@ -84,10 +139,7 @@ int	main(int ac, char **av, char **env)
 			perror("dup2"); //exit ?
 		if (dup2(pipe_fd[OUT], OUT) == -1)
 			perror("dup2"); //exit ?
-		argv_tab = ft_split(av[2], ' ');
-		if (argv_tab == NULL)
-			perror ("ft_split"); //free
-		if (execve("/bin/cat", argv_tab, env) == -1)
+		if (execve((*lst)->path, (*lst)->split_args, env) == -1)
 			perror ("execve"); //free
 		close(pipe_fd[OUT]);
 		exit(EXIT_SUCCESS);
