@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 17:00:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/09/29 16:03:06 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/09/29 17:46:49 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ int	access_path(t_list *list, t_pipex *pipex)
 
 int	split_args(int arg, char **av, t_list *list, t_pipex *pipex)
 {
-	list->args = ft_split(av[arg], ' ');
+	list->args = ft_split(av[arg], ' '); //si pas d'arg fix pipe marche quand meme
 	if (list->args == NULL)
 		return (-1); //tout free
-	if (**(list->args) != '/')
+	if (*(list->args) && **(list->args) != '/')
 	{
 		pipex->path_tmp = ft_strjoin("/", *(list->args));
 		if (pipex->path_tmp == NULL)
@@ -85,7 +85,7 @@ int	split_args(int arg, char **av, t_list *list, t_pipex *pipex)
 		if (access_path(list, pipex) == -1)
 			return (-1);
 	}
-	if (list->path == NULL)
+	if (*(list->args) != NULL && list->path == NULL)
 		list->path = ft_strdup(*(list->args)); //strdup, check quand meme access quand exec commande au cas ou ne marche pas
 	if (list->path == NULL)
 		return (-1);
@@ -151,6 +151,8 @@ int	main(int ac, char **av, char **env)
 	file_check(av[1], av[ac - 1], pipex.file_fd);
 	if (cmd_path(ac, av, env, &lst, &pipex) == -1)
 		return (-1); //free correctement
+	if (lst->fail == 1)
+		lst = lst->next;
 	while (lst)
 	{
 		pipex.pid = fork(); //check unlink
@@ -158,7 +160,6 @@ int	main(int ac, char **av, char **env)
 			perror("fork");
 		if (pipex.pid == 0)
 		{
-			dprintf(2, "%s\n %s\n %s\n", lst->args[0], lst->args[1], lst->args[2]);
 			if (lst->prev == NULL) //si premier IN
 			{
 				if (dup2(pipex.file_fd[IN], IN) == -1)
@@ -186,7 +187,7 @@ int	main(int ac, char **av, char **env)
 				if (dup2(lst->pipe_fd[OUT], OUT) == -1)
 					perror("dup2"); // exit ?
 			}
-			if (lst->path != NULL && access(lst->path, X_OK) == 0)
+			if (access(lst->path, X_OK) == 0)
 			{
 				if (execve(lst->path, lst->args, env) == -1) //erreur si fichier1 non ouvert
 					perror ("execve"); //free;
@@ -202,6 +203,7 @@ int	main(int ac, char **av, char **env)
 		}
 		else
 		{
+			close(lst->pipe_fd[OUT]);
 			if (lst)
 				lst = lst->next;
 		}
