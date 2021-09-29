@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 17:00:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/09/29 15:59:49 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/09/29 16:03:06 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ int	main(int ac, char **av, char **env)
 			}
 			if (lst->path != NULL && access(lst->path, X_OK) == 0)
 			{
-				if (execve(lst->path, lst->args, env) == -1)
+				if (execve(lst->path, lst->args, env) == -1) //erreur si fichier1 non ouvert
 					perror ("execve"); //free;
 			}
 			else
