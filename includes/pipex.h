@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 12:17:08 by eassouli          #+#    #+#             */
-/*   Updated: 2021/09/28 17:33:04 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/09/29 15:47:00 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ typedef struct s_pipex
 {
 	int				pid;
 	int				file_fd[2];
+	char			*path_tmp;
+	char			**env_path;
 }					t_pipex;
 
 typedef struct s_list
@@ -32,7 +34,7 @@ typedef struct s_list
 	int				fail;
 	int				pipe_fd[2];
 	char			*path;
-	char			**split_args;
+	char			**args;
 	struct s_list	*prev;
 	struct s_list	*next;
 }					t_list;

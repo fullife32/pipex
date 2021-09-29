@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 14:39:19 by eassouli          #+#    #+#             */
-/*   Updated: 2021/09/28 17:33:17 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/09/29 14:09:42 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_list	*ft_lstnew(t_list *lst)
 		new->prev = NULL;
 	new->fail = 0;
 	new->path = NULL;
-	new->split_args = NULL;
+	new->args = NULL;
 	new->next = NULL;
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 17:00:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/09/28 19:04:26 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/09/29 15:59:49 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,78 +36,93 @@ void	file_check(char *path1, char *path2, int file_fd[2])
 	}
 }
 
-char	**split_env(char **split_path, char **env)
+int	split_env(char **env, t_pipex *pipex)
 {
 	while (*env && ft_strncmp(*env, "PATH=", 5) != 0)
 		env++;
 	if (*env == NULL)
 	{
 		write(1, "pipex : No path for command found\n", 34); // A changer
-		return (NULL);
+		return (-1);
 	}
-	split_path = ft_split(*env, ':');
-	if (split_path == NULL)
-		return (NULL); // exit
-	*split_path += 5;
-	return (split_path);
+	pipex->env_path = ft_split(*env, ':');
+	if (pipex->env_path == NULL)
+		return (-1); // exit
+	*pipex->env_path += 5;
+	return (0);
 }
 
-int	access_path(int ac, char **av, char **env, t_list **lst, t_pipex *pipex)
+int	access_path(t_list *list, t_pipex *pipex)
 {
-	int		i;
+	int	i;
+
+	i = 0;
+	while (pipex->env_path[i] && list->path == NULL)
+	{
+		list->path = ft_strjoin(pipex->env_path[i], pipex->path_tmp);
+		if (list->path == NULL)
+			return (-1);
+		if (access(list->path, X_OK) == -1)
+		{
+			free(list->path);
+			list->path = NULL;
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	split_args(int arg, char **av, t_list *list, t_pipex *pipex)
+{
+	list->args = ft_split(av[arg], ' ');
+	if (list->args == NULL)
+		return (-1); //tout free
+	if (**(list->args) != '/')
+	{
+		pipex->path_tmp = ft_strjoin("/", *(list->args));
+		if (pipex->path_tmp == NULL)
+			return (-1);
+		if (access_path(list, pipex) == -1)
+			return (-1);
+	}
+	if (list->path == NULL)
+		list->path = ft_strdup(*(list->args)); //strdup, check quand meme access quand exec commande au cas ou ne marche pas
+	if (list->path == NULL)
+		return (-1);
+	return (0);
+}
+
+int	cmd_path(int ac, char **av, char **env, t_list **lst, t_pipex *pipex)
+{
 	int		arg;
-	char	**split_path;
 	t_list	*list;
 
-	split_path = split_env(split_path, env);
-	if (split_path == NULL)
+	if (split_env(env, pipex) == -1)
+		return (-1); //free a la fin
+	if (pipex->env_path == NULL)
 		return (-1);
 	arg = 2;
 	list = NULL;
 	while (arg < ac - 1)
 	{
-		if (list)
-		{
-			list->next = ft_lstnew(list);
-			list = list->next;
-		}
-		else
+		if (list == NULL)
 		{
 			*lst = ft_lstnew(NULL);
 			list = *lst;
 		}
-		if (list == NULL)
-			return (-1); //clear lst
-		create_pipe(list->pipe_fd);
-		if (arg == 2 && pipex->file_fd[IN] == -1)
-			list->fail = 1;
-		list->split_args = ft_split(av[arg], ' '); //dup dans liste chainee
-		if (list->split_args == NULL)
-			return (-1); //exit
-		if (**(list->split_args) == '/')
-			list->path = *(list->split_args); //strdup, check quand meme access quand exec commande au cas ou ne marche pas
 		else
 		{
-			*(list->split_args) = ft_strjoin("/", *(list->split_args));
-			if (*(list->split_args) == NULL)
-				return (-1);
-			i = 0;
-			list->path = NULL;
-			while (split_path[i] && list->path == NULL)
-			{
-				list->path = ft_strjoin(split_path[i], *(list->split_args));
-				if (list->path == NULL)
-					return (-1);
-				if (access(list->path, X_OK) == -1)
-				{
-					free(list->path);
-					list->path = NULL;
-				}
-				i++;
-			}
-			if (list->path == NULL)
-				list->path = ft_strdup(list->split_args[0] + 1); //segv
+			list->next = ft_lstnew(list);
+			list = list->next;
 		}
+		if (list == NULL)
+			return (-1); //clear lst
+		if (create_pipe(list->pipe_fd) == -1)
+			return (-1);
+		if (arg == 2 && pipex->file_fd[IN] == -1)
+			list->fail = 1;
+		if (split_args(arg, av, list, pipex) == -1)
+			return (-1);
 		arg++;
 	}
 	return (0);
@@ -115,7 +130,6 @@ int	access_path(int ac, char **av, char **env, t_list **lst, t_pipex *pipex)
 
 int	main(int ac, char **av, char **env)
 {
-	int		nb;
 	t_pipex	pipex;
 	t_list	**first;
 	t_list	*lst;
@@ -131,28 +145,12 @@ int	main(int ac, char **av, char **env)
 		exit(EXIT_FAILURE);
 	}
 	lst = NULL;
+	pipex.path_tmp = NULL; //a free
+	pipex.env_path = NULL;
 	first = &lst;
 	file_check(av[1], av[ac - 1], pipex.file_fd);
-	access_path(ac, av, env, &lst, &pipex);
-	// pipex.pid = fork();
-	// if (pipex.pid == -1)
-	// 	perror("fork");
-	// if (pipex.pid == 0)
-	// {
-		// close(lst->pipe_fd[IN]);
-		// if (dup2(pipex.file_fd[IN], IN) == -1)
-		// 	perror("dup2"); //exit ?
-		// if (dup2(lst->pipe_fd[OUT], OUT) == -1)
-		// 	perror("dup2"); //exit ?
-		// if (execve(lst->path, lst->split_args, env) == -1)
-		// 	perror ("execve"); //free
-		// close(lst->pipe_fd[OUT]);
-		// exit(EXIT_SUCCESS);
-	// }
-	// else
-	// {
-	// if (lst->prev == NULL || lst->fail == 1)
-	// 	lst = lst->next;
+	if (cmd_path(ac, av, env, &lst, &pipex) == -1)
+		return (-1); //free correctement
 	while (lst)
 	{
 		pipex.pid = fork(); //check unlink
@@ -160,7 +158,7 @@ int	main(int ac, char **av, char **env)
 			perror("fork");
 		if (pipex.pid == 0)
 		{
-			dprintf(2, "%s\n", lst->split_args[0]);
+			dprintf(2, "%s\n %s\n %s\n", lst->args[0], lst->args[1], lst->args[2]);
 			if (lst->prev == NULL) //si premier IN
 			{
 				if (dup2(pipex.file_fd[IN], IN) == -1)
@@ -188,9 +186,9 @@ int	main(int ac, char **av, char **env)
 				if (dup2(lst->pipe_fd[OUT], OUT) == -1)
 					perror("dup2"); // exit ?
 			}
-			if (lst->path == NULL || access(lst->path, X_OK) == 0)
+			if (lst->path != NULL && access(lst->path, X_OK) == 0)
 			{
-				if (execve(lst->path, lst->split_args, env) == -1)
+				if (execve(lst->path, lst->args, env) == -1)
 					perror ("execve"); //free;
 			}
 			else

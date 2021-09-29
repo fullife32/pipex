@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 14:38:23 by eassouli          #+#    #+#             */
-/*   Updated: 2021/09/28 11:57:38 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/09/29 14:25:24 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
 	if (!lst || !del)
 		return ;
-	del(lst->content);
+	del(lst->path);
 	free(lst);
 }
