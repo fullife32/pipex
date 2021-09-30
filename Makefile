@@ -6,7 +6,7 @@
 #    By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/29 14:20:42 by eassouli          #+#    #+#              #
-#    Updated: 2021/09/30 17:27:01 by eassouli         ###   ########.fr        #
+#    Updated: 2021/09/30 18:35:17 by eassouli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,8 @@ SRCS	+=	init_check.c
 SRCS	+=	create_list.c
 
 SRCS	+=	exec_cmd.c
+
+SRCS	+=	free_pipex.c
 
 OBJS	=	$(addprefix $(PATH_B), $(SRCS:.c=.o))
 

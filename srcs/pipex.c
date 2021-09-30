@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 17:00:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/09/30 17:38:58 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/09/30 18:45:50 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int ac, char **av, char **env)
 	pipex.env_path = NULL;
 	file_check(av[1], av[ac - 1], pipex.file_fd);
 	if (create_list(ac, av, env, &lst, &pipex) == -1)
-		return (-1); //free correctement
+		return (free_pipex(first, &pipex, -1)); //free correctement
 	if (lst->fail == 1)
 		lst = lst->next;
 	while (lst)
@@ -52,5 +52,6 @@ int	main(int ac, char **av, char **env)
 				lst = lst->next;
 		}
 	}
+	free_pipex(first, &pipex, 0);
 	return (0);
 }

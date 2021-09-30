@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 12:17:08 by eassouli          #+#    #+#             */
-/*   Updated: 2021/09/30 17:38:37 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/09/30 18:35:37 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
+int		free_pipex(t_list **first, t_pipex *pipex, int error);
+
 int		dup_stdin(t_list *lst, t_pipex *pipex);
 int		dup_stdout(t_list *lst, t_pipex *pipex);
 void	exec_cmd(char **env, t_list *lst, t_pipex *pipex);
@@ -56,8 +58,10 @@ int		create_list(int ac, char **av, char **env, t_list **lst, t_pipex *pipex);
 void	init_check(int ac, char **env);
 void	file_check(char *path1, char *path2, int file_fd[2]);
 
-void	ft_lstclear(t_list **lst, void (*del)(void *));
-void	ft_lstdelone(t_list *lst, void (*del)(void *));
+
+void	del(void **ptr);
+void	ft_lstclear(t_list **lst, void (*del)(void **));
+void	ft_lstdelone(t_list *lst, void (*del)(void **));
 t_list	*ft_lstnew(t_list *lst);
 char	**ft_split(char const *s, char c);
 char	*ft_strdup(const char *s1);

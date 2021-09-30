@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:24:13 by eassouli          #+#    #+#             */
-/*   Updated: 2021/09/30 16:24:47 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/09/30 18:22:10 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,16 @@ int	split_args(int arg, char **av, t_list *list, t_pipex *pipex)
 	list->args = ft_split(av[arg], ' '); //si pas d'arg fix pipe marche quand meme
 	if (list->args == NULL)
 		return (-1); //tout free
-	if (*(list->args) && **(list->args) != '/')
+	if (*list->args && **list->args != '/')
 	{
-		pipex->path_tmp = ft_strjoin("/", *(list->args));
+		pipex->path_tmp = ft_strjoin("/", *list->args);
 		if (pipex->path_tmp == NULL)
 			return (-1);
 		if (access_path(list, pipex) == -1)
 			return (-1);
 	}
-	if (*(list->args) != NULL && list->path == NULL)
-		list->path = ft_strdup(*(list->args)); //strdup, check quand meme access quand exec commande au cas ou ne marche pas
+	if (*list->args != NULL && list->path == NULL)
+		list->path = ft_strdup(*list->args); //strdup, check quand meme access quand exec commande au cas ou ne marche pas
 	if (list->path == NULL)
 		return (-1);
 	return (0);
