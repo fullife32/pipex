@@ -6,7 +6,7 @@
 #    By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/29 14:20:42 by eassouli          #+#    #+#              #
-#    Updated: 2021/09/29 14:28:33 by eassouli         ###   ########.fr        #
+#    Updated: 2021/09/30 17:27:01 by eassouli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,10 +26,8 @@ PATH_S	=	srcs/
 
 PATH_B	=	build/
 
-SRCS	+=	ft_lstadd_back.c \
-			ft_lstclear.c \
+SRCS	+=	ft_lstclear.c \
 			ft_lstdelone.c \
-			ft_lstlast.c \
 			ft_lstnew.c \
 			ft_split.c \
 			ft_strdup.c \
@@ -37,6 +35,12 @@ SRCS	+=	ft_lstadd_back.c \
 			ft_strlen.c \
 			ft_strncmp.c \
 			pipex.c
+
+SRCS	+=	init_check.c
+
+SRCS	+=	create_list.c
+
+SRCS	+=	exec_cmd.c
 
 OBJS	=	$(addprefix $(PATH_B), $(SRCS:.c=.o))
 
