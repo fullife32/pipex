@@ -200,6 +200,7 @@ int	main(int ac, char **av, char **env)
 				close(lst->pipe_fd[OUT]);
 				exit(EXIT_FAILURE);
 			}
+			exit(EXIT_SUCCESSFUL);
 		}
 		else
 		{
