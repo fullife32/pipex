@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 18:32:19 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/01 17:52:33 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/01 17:56:36 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	free_pipex(t_list **first, t_pipex *pipex)
 		free(pipex->env_path);
 		pipex->env_path = NULL;
 	}
-	if (pipex->path_tmp == NULL)
+	if (pipex->path_tmp != NULL)
 		free(pipex->path_tmp);
 	pipex->path_tmp = NULL;
 	close(pipex->file_fd[IN]);

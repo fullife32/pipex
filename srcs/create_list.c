@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:24:13 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/01 17:53:10 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/01 17:57:21 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	split_args(int arg, char **av, t_list *list, t_pipex *pipex)
 		list->path = ft_strdup(*list->args); //strdup, check quand meme access quand exec commande au cas ou ne marche pas
 	if (list->path == NULL)
 		return (-1);
-	if (pipex->path_tmp == NULL)
+	if (pipex->path_tmp != NULL)
 		free(pipex->path_tmp);
 	pipex->path_tmp = NULL;
 	return (0);
