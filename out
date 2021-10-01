@@ -1,10 +1,9 @@
-total 56$
--rw-r--r--   1 eassouli  2019_paris   1633 30 sep 17:27 Makefile$
--rw-r--r--   1 eassouli  2019_paris      7 27 sep 15:21 README.md$
-drwxr-xr-x  14 eassouli  2019_paris    476 30 sep 18:21 build$
-drwxr-xr-x   3 eassouli  2019_paris    102 29 sep 14:22 includes$
-drwxr-xr-x  47 eassouli  2019_paris   1598 29 sep 14:29 libft$
--rw-r--r--   1 eassouli  2019_paris      0 30 sep 18:21 out$
--rwxr-xr-x   1 eassouli  2019_paris  17504 30 sep 18:21 pipex$
-drwxr-xr-x  13 eassouli  2019_paris    442 30 sep 17:23 pipex-tester$
-drwxr-xr-x  15 eassouli  2019_paris    510 30 sep 17:26 srcs$
+Makefile
+README.md
+build
+includes
+libft
+out
+pipex
+pipex-tester
+srcs

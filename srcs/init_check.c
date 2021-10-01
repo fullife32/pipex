@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:22:52 by eassouli          #+#    #+#             */
-/*   Updated: 2021/09/30 16:37:46 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/01 16:38:29 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ void	file_check(char *path1, char *path2, int file_fd[2])
 	{
 		perror(path2);
 		close(file_fd[0]);
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 }

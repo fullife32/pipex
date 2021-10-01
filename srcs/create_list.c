@@ -6,25 +6,24 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:24:13 by eassouli          #+#    #+#             */
-/*   Updated: 2021/09/30 18:22:10 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/01 16:45:14 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	split_env(char **env, t_pipex *pipex)
+int	split_env(t_pipex *pipex)
 {
-	while (*env && ft_strncmp(*env, "PATH=", 5) != 0)
-		env++;
-	if (*env == NULL)
+	while (*pipex->env && ft_strncmp(*pipex->env, "PATH=", 5) != 0)
+		pipex->env++;
+	if (*pipex->env == NULL)
 	{
 		write(1, "pipex : No path for command found\n", 34); // A changer
 		return (-1);
 	}
-	pipex->env_path = ft_split(*env, ':');
+	pipex->env_path = ft_split(*pipex->env + 5, ':');
 	if (pipex->env_path == NULL)
 		return (-1); // exit
-	*pipex->env_path += 5;
 	return (0);
 }
 
@@ -68,12 +67,12 @@ int	split_args(int arg, char **av, t_list *list, t_pipex *pipex)
 	return (0);
 }
 
-int	create_list(int ac, char **av, char **env, t_list **lst, t_pipex *pipex)
+int	create_list(int ac, char **av, t_list **lst, t_pipex *pipex)
 {
 	int		arg;
 	t_list	*list;
 
-	if (split_env(env, pipex) == -1)
+	if (split_env(pipex) == -1)
 		return (-1); //free a la fin
 	if (pipex->env_path == NULL)
 		return (-1);

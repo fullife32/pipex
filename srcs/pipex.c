@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 17:00:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/09/30 18:45:50 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/01 17:47:53 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	create_pipe(int pipefd[])
 	return (0);
 }
 
-int	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env) //erreur 22 127 waitpid
 {
 	t_list	**first;
 	t_list	*lst;
@@ -31,19 +31,27 @@ int	main(int ac, char **av, char **env)
 	init_check(ac, env);
 	lst = NULL;
 	first = &lst;
+	pipex.env = env;
+	pipex.ret = 0;
 	pipex.path_tmp = NULL; //a free
 	pipex.env_path = NULL;
 	file_check(av[1], av[ac - 1], pipex.file_fd);
-	if (create_list(ac, av, env, &lst, &pipex) == -1)
-		return (free_pipex(first, &pipex, -1)); //free correctement
+	if (create_list(ac, av, &lst, &pipex) == -1)
+	{
+		free_pipex(first, &pipex); //free correctement
+		return (-1);
+	}
 	if (lst->fail == 1)
+	{
+		close(lst->pipe_fd[OUT]);
 		lst = lst->next;
+	}
 	while (lst)
 	{
-		pipex.pid = fork(); //check unlink
-		if (pipex.pid == -1)
+		lst->pid = fork(); //check unlink
+		if (lst->pid == -1)
 			perror("fork");
-		if (pipex.pid == 0)
+		else if (lst->pid == 0)
 			exec_cmd(env, lst, &pipex);
 		else
 		{
@@ -52,6 +60,20 @@ int	main(int ac, char **av, char **env)
 				lst = lst->next;
 		}
 	}
-	free_pipex(first, &pipex, 0);
-	return (0);
+	pipex.ret = return_value(lst);
+	free_pipex(first, &pipex);
+	return (pipex.ret);
+}
+
+int	return_value(t_list *lst)
+{
+	int stat_loc;
+
+	while (lst)
+	{
+		stat_loc = 0;
+		waitpid(lst->pid, &stat_loc, 0);
+		lst = lst->next;
+	}
+	return (WIFEXITED(stat_loc));
 }

@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:26:30 by eassouli          #+#    #+#             */
-/*   Updated: 2021/09/30 17:38:19 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/01 17:47:20 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ void	exec_cmd(char **env, t_list *lst, t_pipex *pipex)
 		(EXIT_FAILURE);
 	if (access(lst->path, X_OK) == 0)
 	{
-		if (execve(lst->path, lst->args, env) == -1) //erreur si fichier1 non ouvert
-			perror ("execve"); //free;
+		if (execve(lst->path, lst->args, env) == -1)
+			perror ("execve");
 	}
 	else
 	{
 		write(2, lst->path, ft_strlen(lst->path));
 		write(2, ": command not found\n", 21);
-		close(lst->pipe_fd[IN]);
+		// close(lst->pipe_fd[IN]);
 		close(lst->pipe_fd[OUT]);
 		exit(EXIT_FAILURE);
 	}
