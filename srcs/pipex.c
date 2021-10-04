@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 17:00:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/04 17:56:19 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/04 18:34:57 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ int	create_pipe(int pipefd[])
 
 int	main(int ac, char **av, char **env) //erreur 22 127 waitpid
 {
-	t_list	*first;
+	t_list	**first;
 	t_list	*lst;
 	t_pipex	pipex;
 
 	init_check(ac, env);
 	lst = NULL;
-	first = lst;
+	first = &lst;
 	pipex.env = env;
 	pipex.ret = 0;
 	pipex.path_tmp = NULL;
@@ -38,7 +38,7 @@ int	main(int ac, char **av, char **env) //erreur 22 127 waitpid
 	file_check(av[1], av[ac - 1], pipex.file_fd);
 	if (create_list(ac, av, &lst, &pipex) == -1)
 	{
-		free_pipex(&first, &pipex);
+		free_pipex(first, &pipex);
 		return (-1);
 	}
 	if (lst->fail == 1)
@@ -61,7 +61,7 @@ int	main(int ac, char **av, char **env) //erreur 22 127 waitpid
 		}
 	}
 	pipex.ret = return_value(lst);
-	free_pipex(&first, &pipex);
+	free_pipex(first, &pipex);
 	return (pipex.ret);
 }
 
