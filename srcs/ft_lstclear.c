@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 14:38:04 by eassouli          #+#    #+#             */
-/*   Updated: 2021/09/30 18:28:02 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/04 17:06:01 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,14 @@
 void	ft_lstclear(t_list **lst, void (*del)(void **))
 {
 	t_list	*list;
-	t_list	*nxt;
 
 	if (!lst || !del)
 		return ;
 	list = *lst;
 	while (list != NULL)
 	{
-		nxt = list->next;
 		ft_lstdelone(list, del);
-		list = nxt;
+		list = list->next;
 	}
 	*lst = NULL;
 }
