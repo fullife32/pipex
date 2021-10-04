@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:22:52 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/01 16:38:29 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/04 17:55:56 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	file_check(char *path1, char *path2, int file_fd[2])
 	file_fd[0] = open(path1, O_RDONLY);
 	if (file_fd[0] == -1)
 		perror(path1);
-	file_fd[1] = open(path2, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	file_fd[1] = open(path2, O_WRONLY | O_CREAT | O_TRUNC,
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (file_fd[1] == -1)
 	{
 		perror(path2);

@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 14:38:23 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/04 16:44:49 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/04 17:55:23 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	del(void **ptr)
 void	ft_lstdelone(t_list *lst, void (*del)(void **))
 {
 	int	i;
+
 	if (!lst || !del)
 		return ;
 	del((void **)&lst->path);

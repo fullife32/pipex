@@ -6,24 +6,24 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 12:17:08 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/01 17:42:53 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/04 17:45:45 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	PIPEX_H
-#define	PIPEX_H
+#ifndef PIPEX_H
+# define PIPEX_H
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/wait.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/wait.h>
 
-#define IN 0
-#define OUT 1
+# define IN 0
+# define OUT 1
 
-#define FREE_ALL -2
-#define FREE_FORK -3
+# define FREE_ALL -2
+# define FREE_FORK -3
 
 typedef struct s_pipex
 {
