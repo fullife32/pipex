@@ -6,7 +6,7 @@
 #    By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/29 14:20:42 by eassouli          #+#    #+#              #
-#    Updated: 2021/09/30 18:35:17 by eassouli         ###   ########.fr        #
+#    Updated: 2021/10/04 16:24:35 by eassouli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ SRCS	+=	free_pipex.c
 
 OBJS	=	$(addprefix $(PATH_B), $(SRCS:.c=.o))
 
-CFLAGS	=	 -g -Wall -Wextra -Werror $(INCLUDE)
+CFLAGS	=	-g -Wall -Wextra -Werror $(INCLUDE)
 
 all:	$(PATH_B) $(NAME)
 

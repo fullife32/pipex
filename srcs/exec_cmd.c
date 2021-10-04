@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:26:30 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/01 17:47:20 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/04 15:27:16 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,7 @@ void	exec_cmd(char **env, t_list *lst, t_pipex *pipex)
 	}
 	else
 	{
-		write(2, lst->path, ft_strlen(lst->path));
-		write(2, ": command not found\n", 21);
-		// close(lst->pipe_fd[IN]);
+		close(lst->pipe_fd[IN]);
 		close(lst->pipe_fd[OUT]);
 		exit(EXIT_FAILURE);
 	}

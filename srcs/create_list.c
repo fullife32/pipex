@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:24:13 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/01 18:39:27 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/04 17:00:13 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	split_args(int arg, char **av, t_list *list, t_pipex *pipex)
 {
 	list->args = ft_split(av[arg], ' '); //si pas d'arg fix pipe marche quand meme
 	if (list->args == NULL)
-		return (-1); //tout free
+		return (-1);
 	if (*list->args && **list->args != '/')
 	{
 		pipex->path_tmp = ft_strjoin("/", *list->args);
@@ -62,28 +62,35 @@ int	split_args(int arg, char **av, t_list *list, t_pipex *pipex)
 	}
 	if (*list->args != NULL && list->path == NULL)
 		list->path = ft_strdup(*list->args); //strdup, check quand meme access quand exec commande au cas ou ne marche pas
+	else if (*list->args == NULL)
+		list->path = ft_strdup(" ");
 	if (list->path == NULL)
 		return (-1);
+	if (access(list->path, X_OK) == -1 || *list->args == '\0')
+	{
+		write(2, list->path, ft_strlen(list->path));
+		write(2, ": command not found\n", 21);
+	}
 	if (pipex->path_tmp != NULL)
 		free(pipex->path_tmp);
 	pipex->path_tmp = NULL;
 	return (0);
 }
 
-t_list *create_node(int arg, char **av, t_pipex *pipex)
+t_list *create_node(int arg, char **av, t_list *list, t_pipex *pipex)
 {
-	t_list	*list;
+	t_list	*new;
 
-	list = ft_lstnew(NULL);
-	if (list == NULL)
+	new = ft_lstnew(list);
+	if (new == NULL)
 		return (NULL);
-	if (create_pipe(list->pipe_fd) == -1)
+	if (create_pipe(new->pipe_fd) == -1)
 		return (NULL);
 	if (arg == 2 && pipex->file_fd[IN] == -1)
-		list->fail = 1;
-	if (split_args(arg, av, list, pipex) == -1)
+		new->fail = 1;
+	if (split_args(arg, av, new, pipex) == -1)
 		return (NULL);
-	return (list);
+	return (new);
 }
 
 int	create_list(int ac, char **av, t_list **lst, t_pipex *pipex)
@@ -96,49 +103,21 @@ int	create_list(int ac, char **av, t_list **lst, t_pipex *pipex)
 	if (pipex->env_path == NULL)
 		return (-1);
 	arg = 2;
-	list = NULL;
+	*lst = create_node(arg, av, NULL, pipex);
+	if (*lst == NULL)
+		return (-1);
+	list = *lst;
+	arg++;
 	while (arg < ac - 1)
 	{
-		if (list == NULL)
-		{
-			*lst = ft_lstnew(NULL);
-			list = *lst;
-		}
-		else
-		{
-			list->next = ft_lstnew(list);
-			list = list->next;
-		}
-		if (list == NULL)
-			return (-1); //clear lst
-		if (create_pipe(list->pipe_fd) == -1)
+		list->next = create_node(arg, av, list, pipex);
+		if (list->next == NULL)
 			return (-1);
-		if (arg == 2 && pipex->file_fd[IN] == -1)
-			list->fail = 1;
-		if (split_args(arg, av, list, pipex) == -1)
-			return (-1);
+		list = list->next;
 		arg++;
 	}
 	return (0);
 }
-
-// dprintf(2, "pipefd : %d %d list->path ; %s list-> argv[0] %s\n", list->pipe_fd[0], list->pipe_fd[1], list->path, list->args[0]);
-
-// t_list *create_node(int arg, char **av, t_pipex *pipex)
-// {
-// 	t_list	*list;
-
-// 	list = ft_lstnew(NULL);
-// 	if (list == NULL)
-// 		return (NULL);
-// 	if (create_pipe(list->pipe_fd) == -1)
-// 		return (NULL);
-// 	if (arg == 2 && pipex->file_fd[IN] == -1)
-// 		list->fail = 1;
-// 	if (split_args(arg, av, list, pipex) == -1)
-// 		return (NULL);
-// 	return (list);
-// }
 
 // int	create_list(int ac, char **av, t_list **lst, t_pipex *pipex)
 // {
@@ -150,18 +129,30 @@ int	create_list(int ac, char **av, t_list **lst, t_pipex *pipex)
 // 	if (pipex->env_path == NULL)
 // 		return (-1);
 // 	arg = 2;
-// 	list = create_node(arg, av, pipex);
-// 	if (list == NULL)
-// 		return (-1);
-// 	*lst = list;
-// 	arg++;
+// 	list = NULL;
 // 	while (arg < ac - 1)
 // 	{
-// 		list->next = create_node(arg, av, pipex);
-// 		if (list->next == NULL)
+// 		if (list == NULL)
+// 		{
+// 			*lst = ft_lstnew(NULL);
+// 			list = *lst;
+// 		}
+// 		else
+// 		{
+// 			list->next = ft_lstnew(list);
+// 			list = list->next;
+// 		}
+// 		if (list == NULL)
+// 			return (-1); //clear lst
+// 		if (create_pipe(list->pipe_fd) == -1)
 // 			return (-1);
-// 		list = list->next;
+// 		if (arg == 2 && pipex->file_fd[IN] == -1)
+// 			list->fail = 1;
+// 		if (split_args(arg, av, list, pipex) == -1)
+// 			return (-1);
 // 		arg++;
 // 	}
 // 	return (0);
 // }
+
+// dprintf(2, "pipefd : %d %d list->path ; %s list-> argv[0] %s\n", list->pipe_fd[0], list->pipe_fd[1], list->path, list->args[0]);
