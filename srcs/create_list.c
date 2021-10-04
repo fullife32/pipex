@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:24:13 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/04 17:00:13 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/04 17:12:32 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,12 @@ int	create_list(int ac, char **av, t_list **lst, t_pipex *pipex)
 	if (*lst == NULL)
 		return (-1);
 	list = *lst;
+	list = list->next;
 	arg++;
 	while (arg < ac - 1)
 	{
-		list->next = create_node(arg, av, list, pipex);
-		if (list->next == NULL)
+		list = create_node(arg, av, list, pipex);
+		if (list == NULL)
 			return (-1);
 		list = list->next;
 		arg++;
