@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:47:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/04 18:07:46 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/05 17:39:07 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,11 @@ void	exec_cmd(char **env, t_list *lst, t_pipex *pipex)
 	if (dup_stdout(lst, pipex) == -1)
 		(EXIT_FAILURE);
 	if (access(lst->path, X_OK) == 0)
-	{
-		if (execve(lst->path, lst->args, env) == -1)
-			perror ("execve");
-	}
+		execve(lst->path, lst->args, env);
 	else
 	{
 		close(lst->pipe_fd[IN]);
 		close(lst->pipe_fd[OUT]);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 }

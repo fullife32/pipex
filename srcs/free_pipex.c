@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 18:32:19 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/04 18:50:21 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/05 17:44:44 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	free_pipex(t_list **first, t_pipex *pipex)
 {
 	int	i;
 
+	// (void)first;
 	if (*first)
 		ft_lstclear(first, del);
 	first = NULL;

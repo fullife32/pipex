@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 12:17:08 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/04 18:49:00 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/05 17:00:25 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
-int		return_value(t_list *lst);
+int		return_value(t_list **first, t_pipex *pipex);
 
 #endif

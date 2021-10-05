@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 14:38:04 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/04 18:43:03 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/05 17:21:19 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ void	ft_lstclear(t_list **lst, void (*del)(void **))
 	list = *lst;
 	while (list != NULL)
 	{
-		printf("ok %s\n", list->path);
 		nxt = list->next;
-		ft_lstdelone(list, del);
+		// ft_lstdelone(list, del);
 		list = nxt;
 	}
 	*lst = NULL;

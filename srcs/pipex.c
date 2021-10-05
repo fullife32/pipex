@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 17:00:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/04 18:49:35 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/05 17:50:37 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	create_pipe(int pipefd[])
 
 int	main(int ac, char **av, char **env) //erreur 22 127 waitpid
 {
-	t_list	**first;
+	t_list	*first;
 	t_list	*lst;
 	t_pipex	pipex;
 
@@ -37,11 +37,11 @@ int	main(int ac, char **av, char **env) //erreur 22 127 waitpid
 	file_check(av[1], av[ac - 1], pipex.file_fd);
 	if (create_list(ac, av, &lst, &pipex) == -1)
 	{
-		first = &lst;
-		free_pipex(first, &pipex);
-		return (-1);
+		first = lst;
+		free_pipex(&first, &pipex);
+		exit(EXIT_FAILURE);
 	}
-	first = &lst;
+	first = lst;
 	if (lst->fail == 1)
 	{
 		close(lst->pipe_fd[OUT]);
@@ -57,24 +57,36 @@ int	main(int ac, char **av, char **env) //erreur 22 127 waitpid
 		else
 		{
 			close(lst->pipe_fd[OUT]);
-			if (lst)
-				lst = lst->next;
+			lst = lst->next;
 		}
 	}
-	pipex.ret = return_value(lst);
-	free_pipex(first, &pipex);
+	pipex.ret = return_value(&first, &pipex);
+	free_pipex(&first, &pipex);
 	return (pipex.ret);
 }
 
-int	return_value(t_list *lst)
+int	return_value(t_list **first, t_pipex *pipex)
 {
 	int	stat_loc;
+	int	stat_loc_tmp;
+	t_list	*lst;
 
-	while (lst)
+	(void)pipex;
+	lst = *first;
+	stat_loc = 0;
+	stat_loc_tmp = 0;
+	while (lst->next)
 	{
-		stat_loc = 0;
-		waitpid(lst->pid, &stat_loc, 0);
+		close(lst->pipe_fd[IN]);
+		close(lst->pipe_fd[OUT]);
 		lst = lst->next;
 	}
-	return (WIFEXITED(stat_loc));
+	waitpid(lst->pid, &stat_loc, 0);
+	lst = lst->prev;
+	while (lst)
+	{
+		waitpid(lst->pid, &stat_loc_tmp, 0);
+		lst = lst->prev;
+	}
+	return (WEXITSTATUS(stat_loc));
 }
