@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:24:13 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/06 19:46:45 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/06 19:58:09 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int	create_list(int ac, char **av, t_list **lst, t_pipex *pipex)
 	t_list	*list;
 
 	if (split_env(pipex) == -1)
-		return (-1); //free a la fin
+		return (-1);
 	if (pipex->env_path == NULL)
 		return (-1);
 	arg = 2;
@@ -159,6 +159,3 @@ int	create_list(int ac, char **av, t_list **lst, t_pipex *pipex)
 	}
 	return (0);
 }
-
-// dprintf(2, "pipefd : %d %d list->path ; %s list-> argv[0] %s\n", list->pipe_fd[0], list->pipe_fd[1], list->path, list->args[0]);
-
