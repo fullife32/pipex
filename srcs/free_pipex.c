@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 18:32:19 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/06 19:48:59 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/06 19:53:56 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void	free_list(t_list **first)
 {
 	if (*first)
+	{
+		dprintf(2, "[as\n");
 		ft_lstclear(first, del);
+	}
 	first = NULL;
 }
 

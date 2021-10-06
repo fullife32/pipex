@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 17:00:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/06 19:50:23 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/06 19:50:58 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	main(int ac, char **av, char **env) //erreur 22 127 waitpid
 	}
 	pipex.ret = return_value(&first, &pipex);
 	free_pipex(&first, &pipex);
-	dprintf(2, "test\n");
 	return (pipex.ret);
 }
 
