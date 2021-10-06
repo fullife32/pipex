@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 17:00:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/06 20:37:52 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/06 23:58:48 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,28 +67,33 @@ int	main(int ac, char **av, char **env) //erreur 22 127 waitpid
 
 int	return_value(t_list **first, t_pipex *pipex)
 {
-	int	last_stat_loc;
-	int	stat_loc;
+	int	last_status;
+	int	status;
 	t_list	*lst;
 
 	(void)pipex;
 	lst = *first;
-	last_stat_loc = 126;
-	stat_loc = 0;
+	last_status = 0;
+	status = 0;
 	while (lst->next)
 	{
 		close(lst->pipe_fd[IN]);
 		close(lst->pipe_fd[OUT]);
 		lst = lst->next;
 	}
-	waitpid(lst->pid, &last_stat_loc, WEXITED);
+	waitpid(lst->pid, &last_status, WEXITED);
+	close(lst->pipe_fd[IN]);
+	close(lst->pipe_fd[OUT]);
 	lst = lst->prev;
 	while (lst)
 	{
 		if (lst->fail != 1)
-			waitpid(lst->pid, &stat_loc, 0);
+			waitpid(lst->pid, &status, 0);
 		lst = lst->prev;
 	}
-	dprintf(2, "%d %d\n", WEXITSTATUS(stat_loc), stat_loc);
-	return (WEXITSTATUS(last_stat_loc));
+	// dprintf(2, "%d\n", WEXITSTATUS(last_status));
+	return (WEXITSTATUS(last_status));
+
+	// if (WIFEXITED(last_status))
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:22:52 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/05 17:04:48 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/06 23:57:05 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	init_check(int ac, char **env)
 	if (ac < 5)
 	{
 		write(1, "pipex: Not enough arguments\n", 28);
-		exit(EXIT_FAILURE);
+		exit(22);
 	}
 	if (env == NULL)
 	{
