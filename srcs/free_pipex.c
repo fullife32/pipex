@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 18:32:19 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/06 19:44:46 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/06 19:48:59 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,15 @@ void	free_env(t_pipex *pipex)
 {
 	int	i;
 
-	if (pipex->env_path)
+	i = 0;
+	while (pipex->env_path[i])
 	{
-		i = 0;
-		while (pipex->env_path[i])
-		{
-			free(pipex->env_path[i]);
-			pipex->env_path[i] = NULL;
-			i++;
-		}
-		free(pipex->env_path);
-		pipex->env_path = NULL;
+		free(pipex->env_path[i]);
+		pipex->env_path[i] = NULL;
+		i++;
 	}
+	free(pipex->env_path);
+	pipex->env_path = NULL;
 }
 
 void	free_path(t_pipex *pipex)
