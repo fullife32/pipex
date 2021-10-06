@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 17:00:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/05 17:50:37 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/06 19:37:53 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ int	return_value(t_list **first, t_pipex *pipex)
 	lst = lst->prev;
 	while (lst)
 	{
-		waitpid(lst->pid, &stat_loc_tmp, 0);
+		if (lst->fail != 1)
+			waitpid(lst->pid, &stat_loc_tmp, 0);
 		lst = lst->prev;
 	}
 	return (WEXITSTATUS(stat_loc));
