@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:24:13 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/06 19:26:54 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/06 19:46:45 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,17 @@
 
 int	split_env(t_pipex *pipex)
 {
-	while (*pipex->env && ft_strncmp(*pipex->env, "PATH=", 5) != 0)
-		pipex->env++;
-	if (*pipex->env == NULL)
+	int	i;
+
+	i = 0;
+	while (pipex->env[i] && ft_strncmp(pipex->env[i], "PATH=", 5) != 0)
+		i++;
+	if (pipex->env[i] == NULL)
 	{
 		write(1, "pipex : No path for command found\n", 34); // A changer
 		return (-1);
 	}
-	pipex->env_path = ft_split(*pipex->env + 5, ':');
+	pipex->env_path = ft_split(pipex->env[i] + 5, ':');
 	if (pipex->env_path == NULL)
 		return (-1); // exit
 	return (0);
