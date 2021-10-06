@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 14:38:23 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/06 19:31:24 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/06 19:41:47 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,4 @@ void	ft_lstdelone(t_list *lst, void (*del)(void **))
 	del_args(lst);
 	close(lst->pipe_fd[IN]);
 	close(lst->pipe_fd[OUT]);
-	free(lst);
 }
