@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 17:00:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/06 19:50:58 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/06 20:09:05 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,13 @@ int	return_value(t_list **first, t_pipex *pipex)
 		close(lst->pipe_fd[OUT]);
 		lst = lst->next;
 	}
-	waitpid(lst->pid, &stat_loc, 0);
-	lst = lst->prev;
-	while (lst)
-	{
-		if (lst->fail != 1)
-			waitpid(lst->pid, &stat_loc_tmp, 0);
-		lst = lst->prev;
-	}
+	// waitpid(lst->pid, &stat_loc, 0);
+	// lst = lst->prev;
+	// while (lst)
+	// {
+	// 	if (lst->fail != 1)
+	// 		waitpid(lst->pid, &stat_loc_tmp, 0);
+	// 	lst = lst->prev;
+	// }
 	return (WEXITSTATUS(stat_loc));
 }
