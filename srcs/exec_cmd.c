@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:47:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/06 20:06:07 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/06 20:07:14 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	exec_cmd(char **env, t_list *lst, t_pipex *pipex)
 		if (execve(lst->path, lst->args, env) == -1)
 		{
 			perror("execve");
+			close(lst->pipe_fd[IN]);
 			close(lst->pipe_fd[OUT]);
 			exit(127);
 		}
