@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 14:38:23 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/04 18:41:17 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/06 19:23:32 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,32 @@ void	del(void **ptr)
 	*ptr = NULL;
 }
 
-void	ft_lstdelone(t_list *lst, void (*del)(void **))
+void	del_path(t_list *lst)
+{
+	if (lst->path)
+		free(lst->path);
+	lst->path = NULL;
+}
+
+void	del_args(t_list *lst)
 {
 	int	i;
 
-	if (!lst || !del)
-		return ;
-	del((void **)&lst->path);
 	i = 0;
 	while (lst->args[i])
 	{
-		del((void **)lst->args[i]);
+		free(lst->args[i]);
 		lst->args[i] = NULL;
 		i++;
 	}
+}
+
+void	ft_lstdelone(t_list *lst, void (*del)(void **))
+{
+	if (!lst || !del)
+		return ;
+	del_path(lst);
+	del_args(lst);
 	close(lst->pipe_fd[IN]);
 	close(lst->pipe_fd[OUT]);
 	free(lst);
