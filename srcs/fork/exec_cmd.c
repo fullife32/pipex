@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:47:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/07 19:28:00 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/07 19:45:39 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	exec_cmd(t_list *lst, t_pipex *pipex)
 		}
 	}
 }
-
 
 // void	exec_cmd(t_list *lst, t_pipex *pipex)
 // {

@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 18:13:29 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/07 18:53:04 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/07 19:50:44 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,5 @@ int	return_value(t_list **first)
 			waitpid(lst->pid, &status, 0);
 		lst = lst->prev;
 	}
-	// dprintf(2, "%d\n", WEXITSTATUS(last_status));
 	return (WEXITSTATUS(last_status));
-
-	// if (WIFEXITED(last_status))
-	return (0);
 }

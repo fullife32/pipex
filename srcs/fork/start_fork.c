@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 18:28:45 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/07 18:49:26 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/07 19:50:27 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	start_fork(t_list *lst, t_pipex *pipex)
 	}
 	while (lst)
 	{
-		lst->pid = fork(); //check unlink
+		lst->pid = fork();
 		if (lst->pid == -1)
 			perror("fork");
 		else if (lst->pid == 0)

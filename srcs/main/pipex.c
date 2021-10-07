@@ -6,13 +6,13 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 17:00:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/07 18:57:12 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/07 19:51:38 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int ac, char **av, char **env) //erreur 22 127 waitpid
+int	main(int ac, char **av, char **env) //erreur 127
 {
 	t_list	*first;
 	t_list	*lst;
@@ -21,7 +21,7 @@ int	main(int ac, char **av, char **env) //erreur 22 127 waitpid
 	init_check(ac, env);
 	lst = NULL;
 	init_values(env, &pipex);
-	file_check(av[1], av[ac - 1], pipex.file_fd);
+	file_check(av[1], av[ac - 1], pipex.file_fd, &pipex);
 	if (create_list(ac, av, &lst, &pipex) == -1)
 	{
 		first = lst;
