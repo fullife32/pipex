@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:47:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/07 19:16:29 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/07 19:17:18 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ void	exec_cmd(t_list *lst, t_pipex *pipex)
 			if (lst->prev)
 				close(lst->prev->pipe_fd[IN]);
 			close(lst->pipe_fd[OUT]);
+			while (lst->prev)
+				lst = lst->prev;
+			free_pipex(&lst, pipex);
 			exit(errno);
 		}
 		else
