@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 17:00:48 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/07 18:55:30 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/07 18:57:12 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int ac, char **av, char **env) //erreur 22 127 waitpid
 	if (create_list(ac, av, &lst, &pipex) == -1)
 	{
 		first = lst;
-		// free_pipex(&first, &pipex);
+		free_pipex(&first, &pipex);
 		exit(EXIT_FAILURE);
 	}
 	first = lst;
