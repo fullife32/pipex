@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:22:52 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/06 23:57:05 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/07 18:27:33 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@ void	init_check(int ac, char **env)
 		write(1, "pipex: No valid environment found\n", 34);
 		exit(EXIT_FAILURE);
 	}
+}
+
+void	init_values(char **env, t_pipex *pipex)
+{
+	pipex->env = env;
+	pipex->ret = 0;
+	pipex->path_tmp = NULL;
+	pipex->env_path = NULL;
 }
 
 void	file_check(char *path1, char *path2, int file_fd[2])

@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
+/*   start_fork.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/24 14:39:04 by eassouli          #+#    #+#             */
-/*   Updated: 2021/01/02 14:59:44 by eassouli         ###   ########.fr       */
+/*   Created: 2021/10/07 18:28:45 by eassouli          #+#    #+#             */
+/*   Updated: 2021/10/07 18:49:26 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+void	start_fork(t_list *lst, t_pipex *pipex)
 {
-	t_list	*first;
-	t_list	*list;
-
-	if (!lst || !f)
-		return (NULL);
-	first = NULL;
-	while (lst != NULL)
+	if (lst->fail == 1)
 	{
-		list = ft_lstnew(f(lst->content));
-		if (list == NULL)
-		{
-			ft_lstclear(&first, del);
-			return (NULL);
-		}
-		ft_lstadd_back(&first, list);
+		close(lst->pipe_fd[OUT]);
 		lst = lst->next;
 	}
-	return (first);
+	while (lst)
+	{
+		lst->pid = fork(); //check unlink
+		if (lst->pid == -1)
+			perror("fork");
+		else if (lst->pid == 0)
+			exec_cmd(lst, pipex);
+		else
+		{
+			close(lst->pipe_fd[OUT]);
+			lst = lst->next;
+		}
+	}
 }
