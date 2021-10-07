@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 18:18:33 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/07 19:02:44 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/07 19:04:21 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ int	split_args(int arg, char **av, t_list *list, t_pipex *pipex)
 	}
 	if (pipex->path_tmp)
 		free(pipex->path_tmp);
+	pipex->path_tmp = NULL;
 	return (0);
 }
