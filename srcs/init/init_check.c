@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:22:52 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/14 14:37:17 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/14 16:24:55 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	init_check(int ac, char **env)
 
 void	init_values(char **env, t_pipex *pipex)
 {
-	pipex->env = env;
 	pipex->ret = 0;
 	pipex->path_tmp = NULL;
+	pipex->env = env;
 	pipex->env_path = NULL;
 }
 

@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 12:17:08 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/14 14:37:24 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/14 16:16:20 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 typedef struct s_pipex
 {
 	int				ret;
-	int				pid;
 	int				file_fd[2];
 	char			*path_tmp;
 	char			**env;
