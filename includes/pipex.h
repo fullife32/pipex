@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 12:17:08 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/07 19:47:17 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/14 14:37:24 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_pipex
 	int				ret;
 	int				pid;
 	int				file_fd[2];
-	char			*infile;
 	char			*path_tmp;
 	char			**env;
 	char			**env_path;
@@ -47,7 +46,7 @@ typedef struct s_list
 
 void	init_check(int ac, char **env);
 void	init_values(char **env, t_pipex *pipex);
-void	file_check(char *path1, char *path2, int file_fd[2], t_pipex *pipex);
+void	file_check(char *path1, char *path2, int file_fd[2]);
 
 int		split_env(t_pipex *pipex);
 int		split_args(int arg, char **av, t_list *list, t_pipex *pipex);

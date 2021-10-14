@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:22:52 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/07 19:51:03 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/14 14:37:17 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ void	init_values(char **env, t_pipex *pipex)
 	pipex->env_path = NULL;
 }
 
-void	file_check(char *path1, char *path2, int file_fd[2], t_pipex *pipex)
+void	file_check(char *path1, char *path2, int file_fd[2])
 {
-	pipex->infile = path1; // a faire
 	file_fd[0] = open(path1, O_RDONLY);
 	if (file_fd[0] == -1)
 		perror(path1);

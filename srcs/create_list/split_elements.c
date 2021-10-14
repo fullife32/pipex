@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 18:18:33 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/07 19:45:13 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/14 14:45:23 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,8 @@ int	access_path(t_list *list, t_pipex *pipex)
 	return (0);
 }
 
-int	split_args(int arg, char **av, t_list *list, t_pipex *pipex)
+int	join_path(t_list *list, t_pipex *pipex)
 {
-	list->args = ft_split(av[arg], ' ');
-	if (list->args == NULL)
-		return (-1);
 	if (*list->args && **list->args != '/')
 	{
 		pipex->path_tmp = ft_strjoin("/", *list->args);
@@ -68,6 +65,16 @@ int	split_args(int arg, char **av, t_list *list, t_pipex *pipex)
 	else if (*list->args == NULL)
 		list->path = ft_strdup(" ");
 	if (list->path == NULL)
+		return (-1);
+	return (0);
+}
+
+int	split_args(int arg, char **av, t_list *list, t_pipex *pipex)
+{
+	list->args = ft_split(av[arg], ' ');
+	if (list->args == NULL)
+		return (-1);
+	if (join_path(list, pipex) == -1)
 		return (-1);
 	if (list->fail == 0 && (access(list->path, X_OK) == -1 || *list->args == NULL))
 	{
