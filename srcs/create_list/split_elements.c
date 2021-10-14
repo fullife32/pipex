@@ -6,7 +6,7 @@
 /*   By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 18:18:33 by eassouli          #+#    #+#             */
-/*   Updated: 2021/10/14 14:45:23 by eassouli         ###   ########.fr       */
+/*   Updated: 2021/10/14 14:47:01 by eassouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ int	split_args(int arg, char **av, t_list *list, t_pipex *pipex)
 		return (-1);
 	if (join_path(list, pipex) == -1)
 		return (-1);
-	if (list->fail == 0 && (access(list->path, X_OK) == -1 || *list->args == NULL))
+	if (list->fail == 0
+		&& (access(list->path, X_OK) == -1 || *list->args == NULL))
 	{
 		write(2, list->path, ft_strlen(list->path));
 		write(2, ": command not found\n", 21);
