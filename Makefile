@@ -6,7 +6,7 @@
 #    By: eassouli <eassouli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/29 14:20:42 by eassouli          #+#    #+#              #
-#    Updated: 2021/10/07 18:50:21 by eassouli         ###   ########.fr        #
+#    Updated: 2021/10/14 16:04:51 by eassouli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,8 +58,18 @@ all:	$(PATH_B) $(NAME)
 $(NAME):	$(OBJS)
 	$(CC) $(OBJS) $(CFLAGS) -o $(NAME)
 
+PATH_DIR	=	main \
+				init \
+				create_list \
+				fork \
+				utils \
+				free_and_return \
+
 $(PATH_B):
-	$(MKDIR) $(PATH_B) $(PATH_B)/main $(PATH_B)/init $(PATH_B)/create_list $(PATH_B)/fork $(PATH_B)/utils $(PATH_B)/free_and_return/
+	$(MKDIR) $(PATH_B)
+	for dir in $(PATH_DIR) ; do \
+		$(MKDIR) $(PATH_B)$$dir ; \
+	done
 
 $(PATH_B)%.o:	$(PATH_S)%.c
 	$(CC) $(CFLAGS) -o $@ -c $<
